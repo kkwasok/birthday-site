@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
+
+    :root { --ink:#4b265f; --pink:#ff5d9e; --yellow:#ffd75f; --cream:#fffaf1; }
+    * { box-sizing:border-box; }
+    body {
+      min-height:100vh; margin:0; overflow:hidden; color:var(--ink);
+      font-family:"DM Sans", sans-serif;
+      background:linear-gradient(130deg,#2b0b4b 0%,#17104c 48%,#080d2c 100%);
+    }
+    .bubble { position:absolute; border-radius:50%; opacity:.3; filter:blur(1px); animation: drift 11s ease-in-out infinite; }
+    .bubble.one {width:230px;height:230px; background:#ffe977; top:-55px;left:-55px;}
+    .bubble.two {width:300px;height:300px; background:#ff689d; bottom:-120px;right:-55px; animation-delay:-4s;}
+    .bubble.three {width:100px;height:100px; background:#fff; top:20%;right:12%; animation-delay:-7s;}
+    @keyframes drift { 50% { transform:translate(25px,35px) scale(1.12); } }
+    #balloons { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+    .balloon { position:absolute; bottom:-90px; font-size:clamp(2rem,4vw,3.6rem); filter:drop-shadow(0 5px 5px rgba(0,0,0,.2)); animation:rise var(--rise-time) linear forwards; }
+    @keyframes rise { from { transform:translate3d(0,0,0) rotate(-7deg); } 50% { transform:translate3d(var(--sway),-58vh,0) rotate(8deg); } to { transform:translate3d(var(--sway-back),-115vh,0) rotate(-7deg); } }
+    main { min-height:100vh; display:grid; place-items:center; padding:28px 18px; position:relative; z-index:1; }
+    .card {
+      width:min(690px,100%); text-align:center; padding:42px 36px 34px;
+      background:rgba(255,255,255,.82); border:2px solid rgba(255,255,255,.75);
+      border-radius:32px; box-shadow:0 25px 60px rgba(76,35,121,.28); backdrop-filter:blur(10px);
+    }
+    .party { font-size:2.2rem; letter-spacing:10px; margin-bottom:3px; animation:bounce 1.4s ease-in-out infinite; }
+    @keyframes bounce { 50% { transform:translateY(-8px) rotate(3deg); } }
+    h1 { margin:0; font-family:"Baloo 2", cursive; font-size:clamp(3rem,9vw,5.8rem); line-height:.9; font-weight:800; color:#ffd75f; text-shadow:0 0 8px rgba(255,215,95,.75),0 0 22px rgba(255,192,55,.5),3px 4px 0 rgba(109,57,20,.45); }
+    h1 span { display:block; color:#ffe994; font-size:.65em; margin-top:10px; text-shadow:0 0 10px rgba(255,220,105,.65),0 0 20px rgba(255,194,57,.35); }
+    .cake { font-size:4.3rem; margin:23px 0 8px; filter:drop-shadow(0 5px 2px rgba(80,35,100,.16)); animation:wobble 2.2s ease-in-out infinite; }
+    @keyframes wobble { 50% { transform:rotate(-5deg) translateY(-3px); } }
+    .message { max-width:500px; margin:0 auto 25px; font-size:1.1rem; line-height:1.7; color:#5c4770; }
+    .message strong { color:#ef4788; }
+    button {
+      border:0; border-radius:999px; padding:15px 25px; cursor:pointer; color:white;
+      font:700 1rem "DM Sans",sans-serif; background:linear-gradient(100deg,#ff4f94,#a147d4);
+      box-shadow:0 7px 0 #7c2cac,0 12px 20px rgba(116,40,148,.27); transition:transform .18s,box-shadow .18s;
+    }
+    button:hover { transform:translateY(-2px); box-shadow:0 9px 0 #7c2cac,0 15px 22px rgba(116,40,148,.27); }
+    button:active { transform:translateY(5px); box-shadow:0 2px 0 #7c2cac,0 5px 10px rgba(116,40,148,.2); }
+    .hint { margin:16px 0 0; color:#816b91; font-size:.82rem; }
+    .age-panel { margin:24px auto 0; max-width:480px; padding:14px 16px; border-radius:18px; background:rgba(105,59,144,.09); }
+    .birthday-label { display:flex; align-items:center; justify-content:center; gap:9px; color:#64477a; font-size:.86rem; font-weight:700; }
+    input[type="date"] { border:1px solid #d9bbeb; border-radius:8px; padding:6px 8px; color:#56386d; background:#fffdfd; font:inherit; }
+    .age-title { margin:13px 0 5px; color:#77518b; font-size:.78rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+    #age { color:#ef4788; font-family:"Baloo 2",cursive; font-size:clamp(1.35rem,4vw,1.75rem); font-weight:800; }
+    #confetti { inset:0; position:fixed; width:100%; height:100%; pointer-events:none; z-index:4; }
+    .confetti { position:absolute; top:-24px; width:10px; height:17px; border-radius:2px; animation:fall linear forwards; }
+    @keyframes fall { to { transform:translate3d(var(--drift),110vh,0) rotate(720deg); } }
+    @media (max-width:480px) { .card { padding:34px 22px 28px; border-radius:26px; } .party{font-size:1.7rem;} .message{font-size:1rem;} }
+  </style>
+</head>
+<body>
+  <div id="balloons" aria-hidden="true"></div>
+  <div class="bubble one"></div><div class="bubble two"></div><div class="bubble three"></div>
+  <canvas id="confetti"></canvas>
+  <main>
+    <section class="card" aria-label="Birthday greeting">
+      <div class="party" aria-hidden="true">🎈 ✨ 🎉</div>
+      <h1>Happy Birthday<span>Muniyandi!</span></h1>
+      <div class="cake" aria-hidden="true">🎂</div>
+      <p class="message">Wishing you a day sprinkled with joy, wrapped in love, and topped with all your favorite things. <strong>May this year be your brightest one yet!</strong></p>
+      <button id="songButton" type="button" aria-label="Play birthday song">▶ Play the birthday song</button>
+      <p class="hint">Make a wish before you press play!</p>
+      <section class="age-panel" aria-label="Birthday age counter">
+        <label class="birthday-label" for="birthday">🎁 Choose Muniyandi's birthday <input id="birthday" type="date" /></label>
+        <p class="age-title">Celebrating</p>
+        <div id="age" aria-live="polite">Choose a birthday to begin</div>
+      </section>
+    </section>
+  </main>
+  <script>
+    // A lightweight confetti shower created entirely with the canvas API.
+    const canvas = document.getElementById('confetti'), ctx = canvas.getContext('2d');
+    let pieces = [];
+    function sizeCanvas(){ canvas.width=innerWidth*devicePixelRatio; canvas.height=innerHeight*devicePixelRatio; ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); }
+    addEventListener('resize', sizeCanvas); sizeCanvas();
+    function burst(amount=150){
+      const colors=['#ff4f94','#ffd75f','#5de0e6','#7e57e8','#75d06c','#fff'];
+      for(let i=0;i<amount;i++) pieces.push({x:innerWidth/2+(Math.random()-.5)*180,y:innerHeight*.28+(Math.random()-.5)*60,vx:(Math.random()-.5)*9,vy:Math.random()*-8-2,g:.14+Math.random()*.1,r:Math.random()*6+4,c:colors[i%colors.length],a:Math.random()*6.28,spin:(Math.random()-.5)*.25});
+    }
+    function draw(){
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      pieces=pieces.filter(p=>p.y<innerHeight+30);
+      for(const p of pieces){ p.x+=p.vx; p.y+=p.vy; p.vy+=p.g; p.a+=p.spin; ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r,p.r,p.r*1.6);ctx.restore(); }
+      requestAnimationFrame(draw);
+    }
+    draw(); burst(180); setInterval(()=>burst(35),3200);
+
+    // Float colorful balloons up from the bottom at irregular intervals.
+    const balloonLayer=document.getElementById('balloons'), balloonSet=['🎈','🎈','🎈','🎈','🎉'];
+    function floatBalloon(){
+      const balloon=document.createElement('span'); balloon.className='balloon';
+      balloon.textContent=balloonSet[Math.floor(Math.random()*balloonSet.length)];
+      const sway=(Math.random()-.5)*150; balloon.style.left=`${5+Math.random()*90}%`; balloon.style.setProperty('--sway',`${sway}px`); balloon.style.setProperty('--sway-back',`${-sway}px`);
+      balloon.style.setProperty('--rise-time',`${8+Math.random()*5}s`); balloonLayer.appendChild(balloon);
+      balloon.addEventListener('animationend',()=>balloon.remove());
+    }
+    for(let i=0;i<6;i++) setTimeout(floatBalloon,i*900); setInterval(floatBalloon,1800);
+
+    // Calculate the completed years, months, and days from the selected birthday.
+    const birthdayInput=document.getElementById('birthday'), ageOutput=document.getElementById('age');
+    function updateAge(){
+      if(!birthdayInput.value){ ageOutput.textContent='Choose a birthday to begin'; return; }
+      const born=new Date(`${birthdayInput.value}T00:00:00`), now=new Date();
+      if(born>now){ ageOutput.textContent='That birthday is still to come!'; return; }
+      let years=now.getFullYear()-born.getFullYear(), months=now.getMonth()-born.getMonth(), days=now.getDate()-born.getDate();
+      if(days<0){ const lastMonth=new Date(now.getFullYear(),now.getMonth(),0).getDate(); days+=lastMonth; months--; }
+      if(months<0){ months+=12; years--; }
+      ageOutput.textContent=`${years} years · ${months} months · ${days} days`;
+    }
+    birthdayInput.addEventListener('change',updateAge); setInterval(updateAge,60000);
+
+    // Plays a cheerful "Happy Birthday" melody with Web Audio—no sound file needed.
+    const notes={F4:349.23,G4:392,A4:440,B4:493.88,C5:523.25,D5:587.33,E5:659.25,G5:783.99};
+    const melody=[['G4',.32],['G4',.18],['A4',.5],['G4',.5],['C5',.5],['B4',.9],['G4',.32],['G4',.18],['A4',.5],['G4',.5],['D5',.5],['C5',.9],['G4',.32],['G4',.18],['G5',.5],['E5',.5],['C5',.5],['B4',.5],['A4',.8],['F4',.32],['F4',.18],['E5',.5],['C5',.5],['D5',.5],['C5',1]];
+    document.getElementById('songButton').addEventListener('click', function(){
+      const AudioContext=window.AudioContext||window.webkitAudioContext, audio=new AudioContext(); let time=audio.currentTime+.05;
+      melody.forEach(([note,length])=>{ const osc=audio.createOscillator(), gain=audio.createGain(); osc.type='triangle';osc.frequency.value=notes[note]||349.23; gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.16,time+.02);gain.gain.exponentialRampToValueAtTime(.0001,time+length*.92);osc.connect(gain).connect(audio.destination);osc.start(time);osc.stop(time+length);time+=length; });
+      this.textContent='♫ Playing your birthday song…'; this.disabled=true; burst(230); setTimeout(()=>{this.textContent='▶ Play it again';this.disabled=false;audio.close();},(time-audio.currentTime)*1000+200);
+    });
+  </script>
+</body>
+</html>
