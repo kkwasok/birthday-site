@@ -30,7 +30,7 @@
     }
     .party { font-size:2.2rem; letter-spacing:10px; margin-bottom:3px; animation:bounce 1.4s ease-in-out infinite; }
     @keyframes bounce { 50% { transform:translateY(-8px) rotate(3deg); } }
-    h1 { margin:0; font-family:"Baloo 2", cursive; font-size:clamp(3rem,9vw,5.8rem); line-height:.9; font-weight:800; color:#ffd75f; text-shadow:0 0 8px rgba(255,215,95,.75),0 0 22px rgba(255,192,55,.5),3px 4px 0 rgba(109,57,20,.45); }
+    h1 { margin:0; font-family:"Baloo 2", cursive; font-size:clamp(3rem,9vw,5.8rem); line-height:.9; font-weight:800; color:#ffd75f; -webkit-text-stroke:6px #e53935; paint-order:stroke fill; text-shadow:0 0 8px rgba(255,215,95,.75),0 0 22px rgba(255,192,55,.5),3px 4px 0 rgba(109,57,20,.45); }
     h1 span { display:block; color:#ffe994; font-size:.65em; margin-top:10px; text-shadow:0 0 10px rgba(255,220,105,.65),0 0 20px rgba(255,194,57,.35); }
     .cake { font-size:4.3rem; margin:23px 0 8px; filter:drop-shadow(0 5px 2px rgba(80,35,100,.16)); animation:wobble 2.2s ease-in-out infinite; }
     @keyframes wobble { 50% { transform:rotate(-5deg) translateY(-3px); } }
